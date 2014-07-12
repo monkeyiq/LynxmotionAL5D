@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>Lynxmotion Robot Arm</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet">
+    <link href="cover.css" rel="stylesheet">
+
+
+  </head>
+
+  <body>
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">Take control of your robot arm!</h3>
+	      <img class="armpic3" src="al5d.jpg" width="200"  />
+            </div>
+          </div>
+
+          <div class="inner cover">
+	    <p class="lead">
+	    Warning: the first move you perform for each servo will be
+	    at full speed regardless of what your time specification
+	    says. The interface assumes all servos are in their middle
+	    position at startup.
+	    </p>
+          </div>
+	  
+          <div class="inner cover">
+
+	    <div class="row">
+	      <div class="col-md-1"><p class="lead">Rotate&nbsp;Base</p></div>
+	      <div class="col-md-8"><input id="base" data-slider-id='baseSlider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50"/></div>
+	    </div>
+	    <div class="row">
+	      <div class="col-md-1"><p class="lead">Shoulder</p></div>
+	      <div class="col-md-8"><input id="shoulder" data-slider-id='shoulderSlider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50"/></div>
+	    </div>
+	    <div class="row">
+	      <div class="col-md-1"><p class="lead">Elbow</p></div>
+	      <div class="col-md-8"><input id="elbow" data-slider-id='elbowSlider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50"/></div>
+	    </div>
+	    <div class="row">
+	      <div class="col-md-1"><p class="lead">Wrist</p></div>
+	      <div class="col-md-8"><input id="wrist" data-slider-id='wristSlider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50"/></div>
+	    </div>
+	    <div class="row">
+	      <div class="col-md-1"><p class="lead">Grabber</p></div>
+	      <div class="col-md-8"><input id="grabber" data-slider-id='grabberSlider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50"/></div>
+	    </div>
+          </div>
+
+
+          <div class="inner cover">
+	    <div class="row">
+	      <div class="col-md-1"><p class="lead">Time&nbsp;To Complete</p></div>
+	      <div class="col-md-8"><input id="time" data-slider-id='timeSlider' type="text" data-slider-min="500" data-slider-max="3000" data-slider-step="10" data-slider-value="2500"/></div>
+	    </div>
+          </div>
+
+
+<!--
+          <div class="inner cover">
+	      <div class="btn-group">
+		<button id="test1" type="button" class="btn btn-default btn-lg" >
+		  <span class="glyphicon glyphicon-hand-up"></span>&nbsp;Test1</button>
+		<button id="test2" type="button" class="btn btn-default btn-lg" >
+		  <span class="glyphicon glyphicon-hand-down"></span>&nbsp;Test2</button>
+		<button id="test3" type="button" class="btn btn-default btn-lg" >Test3</button>
+		<button id="test4" type="button" class="btn btn-default btn-lg" >Test4</button>
+	      </div>
+          </div>
+-->
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Using the Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="modernizr.js"></script>
+    <script src="jquery-2.1.0.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap-slider/js/bootstrap-slider.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+
+var socket;
+
+$(document).ready( function() {
+
+        socket = io.connect('http://' + location.host + ":8888" );
+	socket.on('notification', function (data) {
+	        alert('have data from server');
+	});
+
+});
+
+$('#base').slider({});
+$("#base").on('slide', function(slideEvt) {
+    socket.emit('base', {
+        value: slideEvt.value[0],
+        '/end': 'of-message'
+    });
+});
+$('#shoulder').slider({});
+$("#shoulder").on('slide', function(slideEvt) {
+    socket.emit('shoulder', {
+        value: slideEvt.value[0],
+        '/end': 'of-message'
+    });
+});
+$('#elbow').slider({});
+$("#elbow").on('slide', function(slideEvt) {
+    socket.emit('elbow', {
+        value: slideEvt.value[0],
+        '/end': 'of-message'
+    });
+});
+$('#wrist').slider({});
+$("#wrist").on('slide', function(slideEvt) {
+    socket.emit('wrist', {
+        value: slideEvt.value[0],
+        '/end': 'of-message'
+    });
+});
+$('#grabber').slider({});
+$("#grabber").on('slide', function(slideEvt) {
+    socket.emit('grabber', {
+        value: slideEvt.value[0],
+        '/end': 'of-message'
+    });
+});
+$('#time').slider({});
+$("#time").on('slide', function(slideEvt) {
+    socket.emit('time', {
+        value: slideEvt.value[0],
+        '/end': 'of-message'
+    });
+});
+
+
+
+$('#test1').on('click', function (e) {
+    socket.emit('test1', {
+        value: 1,
+        '/end': 'of-message'
+    });
+})
+
+
+    </script>
+
+  </body>
+</html>
