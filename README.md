@@ -8,10 +8,9 @@ robot arm.
 On the BeagleBone Black you will want to make sure that the ttyO4 UART
 is setup before use.
 
-root@beaglebone:/lib/firmware# echo BB-UART4 > /sys/devices/bone_capemgr.*/slots
-root@beaglebone:/lib/firmware# sleep 1
-root@beaglebone:/lib/firmware# chown debian /dev/ttyO4
-
+    root@beaglebone:/lib/firmware# echo BB-UART4 > /sys/devices/bone_capemgr.*/slots
+    root@beaglebone:/lib/firmware# sleep 1
+    root@beaglebone:/lib/firmware# chown debian /dev/ttyO4
 
 You'll need to install the nodejs modules:
   socket.io 
